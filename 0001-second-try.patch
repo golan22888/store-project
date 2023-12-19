@@ -1,0 +1,421 @@
+From ff5b2ec2e24a680c9be27ae55ebce94d8d435ba9 Mon Sep 17 00:00:00 2001
+From: golan <golan22888@gmail.com>
+Date: Sat, 16 Dec 2023 11:15:50 +0200
+Subject: [PATCH] second try
+
+---
+ package-lock.json                             | 59 ++++++++++++++++
+ package.json                                  |  2 +
+ public/index.html                             |  4 +-
+ src/App.js                                    | 53 +++++++++-----
+ src/categories.styles.scss                    |  6 ++
+ .../category-item/category-item.component.jsx | 21 ++++++
+ .../category-item/category-item.styles.scss   | 70 +++++++++++++++++++
+ .../directory/directory.component.jsx         | 15 ++++
+ .../directory/directory.styles.scss           |  6 ++
+ src/index.js                                  |  2 +-
+ src/{index.css => index.scss}                 |  4 +-
+ store-project                                 |  1 +
+ 12 files changed, 219 insertions(+), 24 deletions(-)
+ create mode 100644 src/categories.styles.scss
+ create mode 100644 src/components/category-item/category-item.component.jsx
+ create mode 100644 src/components/category-item/category-item.styles.scss
+ create mode 100644 src/components/directory/directory.component.jsx
+ create mode 100644 src/components/directory/directory.styles.scss
+ rename src/{index.css => index.scss} (53%)
+ create mode 160000 store-project
+
+diff --git a/package-lock.json b/package-lock.json
+index 7a7e610..b2da131 100644
+--- a/package-lock.json
++++ b/package-lock.json
+@@ -11,9 +11,11 @@
+         "@testing-library/jest-dom": "^5.17.0",
+         "@testing-library/react": "^13.4.0",
+         "@testing-library/user-event": "^13.5.0",
++        "packege": "^0.0.2",
+         "react": "^18.2.0",
+         "react-dom": "^18.2.0",
+         "react-scripts": "5.0.1",
++        "sass": "^1.69.5",
+         "web-vitals": "^2.1.4"
+       }
+     },
+@@ -5322,6 +5324,29 @@
+         "node": ">=4"
+       }
+     },
++    "node_modules/axios": {
++      "version": "1.6.2",
++      "resolved": "https://registry.npmjs.org/axios/-/axios-1.6.2.tgz",
++      "integrity": "sha512-7i24Ri4pmDRfJTR7LDBhsOTtcm+9kjX5WiY1X3wIisx6G9So3pfMkEiU7emUBe46oceVImccTEM3k6C5dbVW8A==",
++      "dependencies": {
++        "follow-redirects": "^1.15.0",
++        "form-data": "^4.0.0",
++        "proxy-from-env": "^1.1.0"
++      }
++    },
++    "node_modules/axios/node_modules/form-data": {
++      "version": "4.0.0",
++      "resolved": "https://registry.npmjs.org/form-data/-/form-data-4.0.0.tgz",
++      "integrity": "sha512-ETEklSGi5t0QMZuiXoA/Q6vcnxcLQP5vdugSpuAyi6SVGi2clPPp+xgEhuMaHC+zGgn31Kd235W35f7Hykkaww==",
++      "dependencies": {
++        "asynckit": "^0.4.0",
++        "combined-stream": "^1.0.8",
++        "mime-types": "^2.1.12"
++      },
++      "engines": {
++        "node": ">= 6"
++      }
++    },
+     "node_modules/axobject-query": {
+       "version": "3.2.1",
+       "resolved": "https://registry.npmjs.org/axobject-query/-/axobject-query-3.2.1.tgz",
+@@ -9233,6 +9258,11 @@
+         "url": "https://opencollective.com/immer"
+       }
+     },
++    "node_modules/immutable": {
++      "version": "4.3.4",
++      "resolved": "https://registry.npmjs.org/immutable/-/immutable-4.3.4.tgz",
++      "integrity": "sha512-fsXeu4J4i6WNWSikpI88v/PcVflZz+6kMhUfIwc5SY+poQRPnaf5V7qds6SUyUN3cVxEzuCab7QIoLOQ+DQ1wA=="
++    },
+     "node_modules/import-fresh": {
+       "version": "3.3.0",
+       "resolved": "https://registry.npmjs.org/import-fresh/-/import-fresh-3.3.0.tgz",
+@@ -12876,6 +12906,14 @@
+         "node": ">=6"
+       }
+     },
++    "node_modules/packege": {
++      "version": "0.0.2",
++      "resolved": "https://registry.npmjs.org/packege/-/packege-0.0.2.tgz",
++      "integrity": "sha512-LgKAogYxwwMx1oO1CNPVQloiDbX6nw3tdSGUJJwkuPo04b/mgMrzAEEnaBYfzxaKDDS+CdrTn6DyFqvfvUZyZA==",
++      "dependencies": {
++        "axios": "^1.4.0"
++      }
++    },
+     "node_modules/param-case": {
+       "version": "3.0.4",
+       "resolved": "https://registry.npmjs.org/param-case/-/param-case-3.0.4.tgz",
+@@ -14445,6 +14483,11 @@
+         "node": ">= 0.10"
+       }
+     },
++    "node_modules/proxy-from-env": {
++      "version": "1.1.0",
++      "resolved": "https://registry.npmjs.org/proxy-from-env/-/proxy-from-env-1.1.0.tgz",
++      "integrity": "sha512-D+zkORCbA9f1tdWRK0RaCR3GPv50cMxcrz4X8k5LTSUD1Dkw47mKJEZQNunItRTkWwgtaUSo1RVFRIG9ZXiFYg=="
++    },
+     "node_modules/psl": {
+       "version": "1.9.0",
+       "resolved": "https://registry.npmjs.org/psl/-/psl-1.9.0.tgz",
+@@ -15298,6 +15341,22 @@
+       "resolved": "https://registry.npmjs.org/sanitize.css/-/sanitize.css-13.0.0.tgz",
+       "integrity": "sha512-ZRwKbh/eQ6w9vmTjkuG0Ioi3HBwPFce0O+v//ve+aOq1oeCy7jMV2qzzAlpsNuqpqCBjjriM1lbtZbF/Q8jVyA=="
+     },
++    "node_modules/sass": {
++      "version": "1.69.5",
++      "resolved": "https://registry.npmjs.org/sass/-/sass-1.69.5.tgz",
++      "integrity": "sha512-qg2+UCJibLr2LCVOt3OlPhr/dqVHWOa9XtZf2OjbLs/T4VPSJ00udtgJxH3neXZm+QqX8B+3cU7RaLqp1iVfcQ==",
++      "dependencies": {
++        "chokidar": ">=3.0.0 <4.0.0",
++        "immutable": "^4.0.0",
++        "source-map-js": ">=0.6.2 <2.0.0"
++      },
++      "bin": {
++        "sass": "sass.js"
++      },
++      "engines": {
++        "node": ">=14.0.0"
++      }
++    },
+     "node_modules/sass-loader": {
+       "version": "12.6.0",
+       "resolved": "https://registry.npmjs.org/sass-loader/-/sass-loader-12.6.0.tgz",
+diff --git a/package.json b/package.json
+index c14c863..2e9c7bb 100644
+--- a/package.json
++++ b/package.json
+@@ -6,9 +6,11 @@
+     "@testing-library/jest-dom": "^5.17.0",
+     "@testing-library/react": "^13.4.0",
+     "@testing-library/user-event": "^13.5.0",
++    "packege": "^0.0.2",
+     "react": "^18.2.0",
+     "react-dom": "^18.2.0",
+     "react-scripts": "5.0.1",
++    "sass": "^1.69.5",
+     "web-vitals": "^2.1.4"
+   },
+   "scripts": {
+diff --git a/public/index.html b/public/index.html
+index aa069f2..1199b76 100644
+--- a/public/index.html
++++ b/public/index.html
+@@ -24,7 +24,9 @@
+       work correctly both with client-side routing and a non-root public URL.
+       Learn how to configure a non-root public URL by running `npm run build`.
+     -->
+-    <title>React App</title>
++    <link rel="preconnect" href="https://fonts.googleapis.com">
++    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
++    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap" rel="stylesheet">
+   </head>
+   <body>
+     <noscript>You need to enable JavaScript to run this app.</noscript>
+diff --git a/src/App.js b/src/App.js
+index 3784575..955c4cc 100644
+--- a/src/App.js
++++ b/src/App.js
+@@ -1,24 +1,39 @@
+-import logo from './logo.svg';
+-import './App.css';
++import Directory from './components/directory/directory.component'
++
++
++const App = () => {
++
++  const categories = [
++    {
++      "id": 1,
++      "title": "Hats",
++      "imageUrl": "https://i.ibb.co/cvpntL1/hats.png"
++    },
++    {
++      "id": 2,
++      "title": "Jackets",
++      "imageUrl": "https://i.ibb.co/px2tCc3/jackets.png"
++    },
++    {
++      "id": 3,
++      "title": "Sneakers",
++      "imageUrl": "https://i.ibb.co/0jqHpnp/sneakers.png"
++    },
++    {
++      "id": 4,
++      "title": "Women",
++      "imageUrl": "https://i.ibb.co/GCCdy8t/womens.png"
++    },
++    {
++      "id": 5,
++      "title": "men",
++      "imageUrl": "https://i.ibb.co/R70vBrQ/men.png"
++    }
++  ]
++
+ 
+-function App() {
+   return (
+-    <div className="App">
+-      <header className="App-header">
+-        <img src={logo} className="App-logo" alt="logo" />
+-        <p>
+-          Edit <code>src/App.js</code> and save to reload.
+-        </p>
+-        <a
+-          className="App-link"
+-          href="https://reactjs.org"
+-          target="_blank"
+-          rel="noopener noreferrer"
+-        >
+-          Learn React
+-        </a>
+-      </header>
+-    </div>
++    <Directory categories = { categories }/>
+   );
+ }
+ 
+diff --git a/src/categories.styles.scss b/src/categories.styles.scss
+new file mode 100644
+index 0000000..5769a3c
+--- /dev/null
++++ b/src/categories.styles.scss
+@@ -0,0 +1,6 @@
++.categories-container {
++    width: 100%;
++    display: flex;
++    flex-wrap: wrap;
++    justify-content: space-between;
++  }
+\ No newline at end of file
+diff --git a/src/components/category-item/category-item.component.jsx b/src/components/category-item/category-item.component.jsx
+new file mode 100644
+index 0000000..d3542ab
+--- /dev/null
++++ b/src/components/category-item/category-item.component.jsx
+@@ -0,0 +1,21 @@
++import './category-item.styles.scss'
++
++const CategoryItem = ({ category }) => {
++  const {imageUrl, title} = category;
++  return (
++    <div className="category-container">
++        <div
++          className="background-image"
++          style={{
++              backgroundImage: `url(${imageUrl})`,
++            }}
++          />
++        <div className="category-body-container">
++          <h2>{title}</h2>
++          <p>Shop Now</p>
++        </div>
++      </div>
++  )
++}
++
++export default CategoryItem
+\ No newline at end of file
+diff --git a/src/components/category-item/category-item.styles.scss b/src/components/category-item/category-item.styles.scss
+new file mode 100644
+index 0000000..ddeced0
+--- /dev/null
++++ b/src/components/category-item/category-item.styles.scss
+@@ -0,0 +1,70 @@
++
++  .category-container {
++    min-width: 30%;
++    height: 240px;
++    flex: 1 1 auto;
++    display: flex;
++    align-items: center;
++    justify-content: center;
++    border: 1px solid black;
++    margin: 0 7.5px 15px;
++    overflow: hidden;
++
++    &:hover {
++      cursor: pointer;
++  
++      & .background-image {
++        transform: scale(1.1);
++        transition: transform 6s cubic-bezier(0.25, 0.45, 0.45, 0.95);
++      }
++  
++      & .category-body-container {
++        opacity: 0.9;
++      }
++    }
++  
++    &.large {
++      height: 380px;
++    }
++  
++    &:first-child {
++      margin-right: 7.5px;
++    }
++  
++    &:last-child {
++      margin-left: 7.5px;
++    }
++  
++    .background-image {
++      width: 100%;
++      height: 100%;
++      background-size: cover;
++      background-position: center;
++    }
++  
++    .category-body-container {
++      height: 90px;
++      padding: 0 25px;
++      display: flex;
++      flex-direction: column;
++      align-items: center;
++      justify-content: center;
++      border: 1px solid black;
++      background-color: white;
++      opacity: 0.7;
++      position: absolute;
++  
++      h2 {
++        font-weight: bold;
++        margin: 0 6px 0;
++        font-size: 22px;
++        color: #4a4a4a;
++      }
++  
++      p {
++        font-weight: lighter;
++        font-size: 16px;
++      }
++    }
++  }
++  
+\ No newline at end of file
+diff --git a/src/components/directory/directory.component.jsx b/src/components/directory/directory.component.jsx
+new file mode 100644
+index 0000000..53dd4a9
+--- /dev/null
++++ b/src/components/directory/directory.component.jsx
+@@ -0,0 +1,15 @@
++import CategoryItem from '../category-item/category-item.component'
++
++import './directory.styles.scss';
++
++const Directory = ({categories}) => {
++    return(
++        <div className = "directory-container">
++        {categories.map((category) => (
++          <CategoryItem key={category.id} category={category}/>
++        ))}
++      </div>
++    )
++}
++
++export default Directory;
+\ No newline at end of file
+diff --git a/src/components/directory/directory.styles.scss b/src/components/directory/directory.styles.scss
+new file mode 100644
+index 0000000..160ccba
+--- /dev/null
++++ b/src/components/directory/directory.styles.scss
+@@ -0,0 +1,6 @@
++.directory-container {
++    width: 100%;
++    display: flex;
++    flex-wrap: wrap;
++    justify-content: space-between;
++  }
+\ No newline at end of file
+diff --git a/src/index.js b/src/index.js
+index d563c0f..206e279 100644
+--- a/src/index.js
++++ b/src/index.js
+@@ -1,6 +1,6 @@
+ import React from 'react';
+ import ReactDOM from 'react-dom/client';
+-import './index.css';
++import './index.scss';
+ import App from './App';
+ import reportWebVitals from './reportWebVitals';
+ 
+diff --git a/src/index.css b/src/index.scss
+similarity index 53%
+rename from src/index.css
+rename to src/index.scss
+index ec2585e..eb18ef6 100644
+--- a/src/index.css
++++ b/src/index.scss
+@@ -1,8 +1,6 @@
+ body {
+   margin: 0;
+-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+-    sans-serif;
++  font-family: 'Open Sans', sans-serif;
+   -webkit-font-smoothing: antialiased;
+   -moz-osx-font-smoothing: grayscale;
+ }
+diff --git a/store-project b/store-project
+new file mode 160000
+index 0000000..9226a4e
+--- /dev/null
++++ b/store-project
+@@ -0,0 +1 @@
++Subproject commit 9226a4e3d42defe6a8d87d92f87df90bcd90575d
+-- 
+2.42.0.windows.2
+
